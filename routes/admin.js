@@ -1,3 +1,13 @@
+/* add product
+{
+  "id": 1,
+  "title": "Bryggkaffe",
+  "desc": "Bryggd på månadens bönor.",
+  "price": 39
+}
+
+remove product */
+
 const { getMenu, addMenuItem, removeMenuItem, doesItemExist } = require('../model/menudb');
 
 const { Router } = require('express');
@@ -6,11 +16,6 @@ const router = Router();
 
 router.post('/addproduct', async (req, res) => {
   const newMenuItem = req.body;
-
-  const resObj = {
-    success: false,
-    message: "does the item have all the properties? "
-  }
 
   // Length 0 = title/id does not exist
   // Length 1 = title/id already exists
@@ -25,20 +30,17 @@ router.post('/addproduct', async (req, res) => {
         "desc": newMenuItem.desc,
         "price": newMenuItem.price
       };
-
-      const newMenu = await addMenuItem(menuItem);
-      
-      resObj.success = true;
-      resObj.message= "New item added to menu.";
-      resObj.menu = newMenu;
+    
+      res.send(addMenuItem(menuItem));
     } else {
-      resObj.message = "id already exists";
+      const menu = await getMenu();
+      console.log("menu[0].length", menu[0].length);
+      res.send("id already exists");
     }
 
   } else {
-    resObj.message = "title already exists";
+    res.send("title already exists");
   }
-  res.json(resObj);
 });
 
 router.get('/removeproduct', async (req, res) => {

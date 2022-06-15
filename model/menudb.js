@@ -16,8 +16,10 @@ async function getMenu() {
 async function addMenuItem(newMenuItem) {
     const currentMenu = await database.find({});
     const menuId = currentMenu[0]._id;
-    const menuItem = await database.update({_id: menuId}, { $push: {newMenuItem} }, {});
-    return [menuItem];
+    //const menuItem = await database.update({_id: menuId}, { $push: {newMenuItem} }, {});
+    await database.update({_id: menuId}, { $push: {menu: newMenuItem} }, {});
+    const updatedMenu = await database.find({});
+    return [updatedMenu];
 }
 
 async function doesItemExist(type, value) {

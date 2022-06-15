@@ -8,7 +8,8 @@ router.post('/addproduct', async (req, res) => {
   const newMenuItem = req.body;
 
   const resObj = {
-    success: false
+    success: false,
+    message: "does the item have all the properties? "
   }
 
   // Length 0 = title/id does not exist
@@ -19,25 +20,24 @@ router.post('/addproduct', async (req, res) => {
     
     if(checkId.length == 0) {
       const menuItem = {
-        //"id": snelhest,
         "id": newMenuItem.id,
         "title": newMenuItem.title,
         "desc": newMenuItem.desc,
         "price": newMenuItem.price
       };
-    
+
       const newMenu = await addMenuItem(menuItem);
+      
       resObj.success = true;
-      resObj.order = newMenu;
+      resObj.message= "New item added to menu.";
+      resObj.menu = newMenu;
     } else {
-      const menu = await getMenu();
       resObj.message = "id already exists";
     }
 
   } else {
     resObj.message = "title already exists";
   }
-
   res.json(resObj);
 });
 

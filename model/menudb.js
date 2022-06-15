@@ -14,12 +14,15 @@ async function getMenu() {
 }
 
 async function addMenuItem(newMenuItem) {
-    const currentMenu = await database.find({});
-    const menuId = currentMenu[0]._id;
-    //const menuItem = await database.update({_id: menuId}, { $push: {newMenuItem} }, {});
+    const menuId = getDatabaseId();
     await database.update({_id: menuId}, { $push: {menu: newMenuItem} }, {});
     const updatedMenu = await database.find({});
     return [updatedMenu];
+}
+
+async function getDatabaseId() {
+    const currentMenu = await database.find({});
+    return currentMenu[0]._id;
 }
 
 async function doesItemExist(type, value) {

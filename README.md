@@ -73,3 +73,42 @@ json
 
 Header:        
 *no header*
+
+---
+ADMIN STUFF
+---
+**localhost:8000/api/admin/addproduct**
+
+Body:       
+json            
+```json
+{
+  "id": 7,
+	"title": "BryggKaffe ++",
+	"desc": "Bryggd på dagens bönor.",
+	"price": 54
+}
+```
+
+Header:        
+*no header*
+
+---
+**localhost:8000/api/admin/removeproduct**
+
+Body:       
+json            
+```json
+{
+  "id": 7
+}
+```
+or          
+```json
+{
+	"title": "BryggKaffe ++"
+}
+```
+
+Header:        
+*no header*

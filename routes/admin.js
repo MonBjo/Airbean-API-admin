@@ -16,18 +16,20 @@ const router = Router();
 
 router.post('/addproduct', async (req, res) => {
   const newMenuItem = req.body;
-
+  const checkTitle = await doesItemExist("title", newMenuItem.title);
+  const checkId = await doesItemExist("id", newMenuItem.id);
+  
   const resObj = {
     sucess: false,
     message: "do you have all properties?"
   }
 
+
+
+
   // Length 0 = title/id does not exist
   // Length 1 = title/id already exists
-  const checkTitle = await doesItemExist("title", newMenuItem.title);
   if(checkTitle.length == 0) {
-    const checkId = await doesItemExist("id", newMenuItem.id);
-    
     if(checkId.length == 0) {
       const menuItem = {
         "id": newMenuItem.id,
@@ -35,13 +37,13 @@ router.post('/addproduct', async (req, res) => {
         "desc": newMenuItem.desc,
         "price": newMenuItem.price
       };
-    
-      // res.send(addMenuItem(menuItem));
-      await addMenuItem(menuItem);
 
-      resObj.message = "Item added to menu";
+      await addMenuItem(menuItem);
       const newMenu = await getMenu();
-      resObj.order = newMenu[0].menu;
+
+      resObj.sucess = true;
+      resObj.message = "Item added to menu";
+      resObj.menu = newMenu[0].menu;
 
     } else {
       resObj.message = "id already exists";
@@ -54,7 +56,27 @@ router.post('/addproduct', async (req, res) => {
 });
 
 router.get('/removeproduct', async (req, res) => {
-  res.send("byeeee!");
+  const checkTitle = await doesItemExist("title", newMenuItem.title);
+  const checkId = await doesItemExist("id", newMenuItem.id);
+  
+  const resObj = {
+    sucess: false,
+    message: "do you have all properties?"
+  };
+
+  // Length 0 = title/id does not exist
+  // Length 1 = title/id already exists
+  if(checkTitle.length == 1 || checkId.length == 1) {
+    await removeMenuItem();
+    const newMenu = await getMenu();
+
+    resObj.sucess = true;
+    resObj.message = "Item was deleted";
+    resObj.menu = newMenu[0].menu;
+  } else {
+    resObj.message = "Item does not exist";
+  }
+
 });
 
 module.exports = router;

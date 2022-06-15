@@ -13,4 +13,25 @@ async function getMenu() {
     }
 }
 
-module.exports = { getMenu }
+async function addMenuItem(newMenuItem) {
+    const currentMenu = await database.find({});
+    const menuId = currentMenu[0]._id;
+    const menuItem = await database.update({_id: menuId}, { $push: {newMenuItem} }, {});
+    return [menuItem];
+}
+
+async function doesItemExist(type, value) {
+    if(type == "title") {
+        return await database.find({ "menu.title": value });
+    } else if(type == "id") {
+        return await database.find({ "menu.id": value });
+    } else {
+        return "type not found";
+    }
+}
+
+function removeMenuItem() {
+    console.log("removeMenuItem() is running");
+}
+
+module.exports = { getMenu, addMenuItem, removeMenuItem, doesItemExist }

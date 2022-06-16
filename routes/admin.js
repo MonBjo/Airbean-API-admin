@@ -1,13 +1,3 @@
-/* add product
-{
-  "id": 1,
-  "title": "Bryggkaffe",
-  "desc": "Bryggd på månadens bönor.",
-  "price": 39
-}
-
-remove product */
-
 const { getMenu, addMenuItem, removeMenuItem, doesItemExist } = require('../model/menudb');
 
 const { Router } = require('express');
@@ -52,7 +42,6 @@ router.post('/addproduct', async (req, res) => {
   res.json(resObj);
 });
 
-//router.put('/removeproduct', async (req, res) => {
 router.delete('/removeproduct', async (req, res) => {
   console.log("===---===---===---===---===---===---===");
   const removeItem = req.body;
@@ -60,12 +49,13 @@ router.delete('/removeproduct', async (req, res) => {
     sucess: false,
     message: "Please add title as a property the body"
   };
-
+  
   const checkTitle = await doesItemExist("title", removeItem.title);
+
   // Length 0 = title does not exist
   // Length 1 = title already exists
   if(checkTitle.length == 1) {
-    await removeMenuItem();
+    await removeMenuItem(removeItem.title);
     const newMenu = await getMenu();
 
     resObj.sucess = true;

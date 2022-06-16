@@ -24,6 +24,7 @@ router.post('/addproduct', async (req, res) => {
         "desc": newMenuItem.desc,
         "price": newMenuItem.price
       };
+      // CHECK SO ALL PROPERTIES ARE INCLUED
 
       await addMenuItem(menuItem);
       const newMenu = await getMenu();

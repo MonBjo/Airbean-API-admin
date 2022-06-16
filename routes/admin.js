@@ -44,19 +44,19 @@ router.post('/addproduct', async (req, res) => {
 });
 
 router.delete('/removeproduct', async (req, res) => {
-  console.log("===---===---===---===---===---===---===");
-  const removeItem = req.body;
   const resObj = {
     sucess: false,
     message: "Please add title as a property the body"
   };
-  
-  const checkTitle = await doesItemExist("title", removeItem.title);
+
+  const itemTitle = capitalizeFirstLetter(req.body.title);
+  const checkTitle = await doesItemExist("title", itemTitle);
+  console.log(req.body.title, itemTitle, checkTitle);
 
   // Length 0 = title does not exist
   // Length 1 = title already exists
   if(checkTitle.length == 1) {
-    await removeMenuItem(removeItem.title);
+    await removeMenuItem(itemTitle);
     const newMenu = await getMenu();
 
     resObj.sucess = true;
@@ -67,5 +67,9 @@ router.delete('/removeproduct', async (req, res) => {
   }
   res.json(resObj);
 });
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 module.exports = router;

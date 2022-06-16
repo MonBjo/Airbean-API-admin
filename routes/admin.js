@@ -24,9 +24,6 @@ router.post('/addproduct', async (req, res) => {
     message: "do you have all properties?"
   }
 
-
-
-
   // Length 0 = title/id does not exist
   // Length 1 = title/id already exists
   if(checkTitle.length == 0) {
@@ -56,17 +53,17 @@ router.post('/addproduct', async (req, res) => {
 });
 
 router.get('/removeproduct', async (req, res) => {
-  const checkTitle = await doesItemExist("title", newMenuItem.title);
-  const checkId = await doesItemExist("id", newMenuItem.id);
-  
+  console.log("===---===---===---===---===---===---===");
+  const removeItem = req.body;
   const resObj = {
     sucess: false,
-    message: "do you have all properties?"
+    message: "Please add title as a property the body"
   };
 
-  // Length 0 = title/id does not exist
-  // Length 1 = title/id already exists
-  if(checkTitle.length == 1 || checkId.length == 1) {
+  const checkTitle = await doesItemExist("title", removeItem.title);
+  // Length 0 = title does not exist
+  // Length 1 = title already exists
+  if(checkTitle.length == 1) {
     await removeMenuItem();
     const newMenu = await getMenu();
 
@@ -76,7 +73,7 @@ router.get('/removeproduct', async (req, res) => {
   } else {
     resObj.message = "Item does not exist";
   }
-
+  res.json(resObj);
 });
 
 module.exports = router;

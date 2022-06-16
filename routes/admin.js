@@ -57,14 +57,14 @@ router.delete('/removeproduct', async (req, res) => {
   // Length 1 = title already exists
   if(checkTitle.length == 1) {
     await removeMenuItem(itemTitle);
-    const newMenu = await getMenu();
-
+    
     resObj.sucess = true;
     resObj.message = "Item was deleted";
-    resObj.menu = newMenu[0].menu;
   } else {
     resObj.message = "Item does not exist";
   }
+  const databaseMenu = await getMenu();
+  resObj.menu = databaseMenu[0].menu;
   res.json(resObj);
 });
 

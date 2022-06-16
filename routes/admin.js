@@ -11,35 +11,37 @@ router.post('/addproduct', async (req, res) => {
   
   const resObj = {
     sucess: false,
-    message: "do you have all properties?"
+    message: `do you have all properties? "id", "title", "desc" and "price"`
   }
+  if (newMenuItem.hasOwnProperty('id') && newMenuItem.hasOwnProperty('title')
+    && newMenuItem.hasOwnProperty('desc') && newMenuItem.hasOwnProperty('price')) {
+    // Length 0 = title/id does not exist
+    // Length 1 = title/id already exists
+    if(checkTitle.length == 0) {
+      if(checkId.length == 0) {
+        const menuItem = {
+          "id": newMenuItem.id,
+          "title": newMenuItem.title,
+          "desc": newMenuItem.desc,
+          "price": newMenuItem.price
+        };
 
-  // Length 0 = title/id does not exist
-  // Length 1 = title/id already exists
-  if(checkTitle.length == 0) {
-    if(checkId.length == 0) {
-      const menuItem = {
-        "id": newMenuItem.id,
-        "title": newMenuItem.title,
-        "desc": newMenuItem.desc,
-        "price": newMenuItem.price
-      };
-      // CHECK SO ALL PROPERTIES ARE INCLUED
+        await addMenuItem(menuItem);
+        const newMenu = await getMenu();
 
-      await addMenuItem(menuItem);
-      const newMenu = await getMenu();
+        resObj.sucess = true;
+        resObj.message = "Item added to menu";
+        resObj.menu = newMenu[0].menu;
 
-      resObj.sucess = true;
-      resObj.message = "Item added to menu";
-      resObj.menu = newMenu[0].menu;
+      } else {
+        resObj.message = "id already exists";
+      }
 
     } else {
-      resObj.message = "id already exists";
+      resObj.message = "title already exists";
     }
-
-  } else {
-    resObj.message = "title already exists";
   }
+
   res.json(resObj);
 });
 

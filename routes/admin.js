@@ -52,7 +52,8 @@ router.post('/addproduct', async (req, res) => {
   res.json(resObj);
 });
 
-router.get('/removeproduct', async (req, res) => {
+//router.put('/removeproduct', async (req, res) => {
+router.delete('/removeproduct', async (req, res) => {
   console.log("===---===---===---===---===---===---===");
   const removeItem = req.body;
   const resObj = {

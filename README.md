@@ -97,13 +97,7 @@ Header:
 **`DELETE` localhost:8000/api/admin/removeproduct**
 
 Body:       
-json            
-```json
-{
-  "id": 7
-}
-```
-or          
+json         
 ```json
 {
 	"title": "BryggKaffe ++"

@@ -1,10 +1,10 @@
 const { getMenu, addMenuItem, removeMenuItem, doesItemExist } = require('../model/menudb');
-
+const { auth } = require('../middleware/auth');
 const { Router } = require('express');
 
 const router = Router();
 
-router.post('/addproduct', async (req, res) => {
+router.post('/addproduct', auth, async (req, res) => {
   const newMenuItem = req.body;
   const checkTitle = await doesItemExist("title", newMenuItem.title);
   const checkId = await doesItemExist("id", newMenuItem.id);
@@ -45,7 +45,7 @@ router.post('/addproduct', async (req, res) => {
   res.json(resObj);
 });
 
-router.delete('/removeproduct', async (req, res) => {
+router.delete('/removeproduct', auth, async (req, res) => {
   const resObj = {
     sucess: false,
     message: "Please add title as a property the body"

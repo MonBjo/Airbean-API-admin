@@ -3,7 +3,7 @@
 ## Debug in insomnia:
 
 ---
-**localhost:8000/api/account/signup**
+**`POST` localhost:8000/api/account/signup**
 
 Body:    
 json       
@@ -19,7 +19,7 @@ Header:
 Content-Type | application/json
 
 ---
-**localhost:8000/api/order**
+**`POST` localhost:8000/api/order**
 
 Body:     
 json        
@@ -42,7 +42,7 @@ username | William2
 Content-Type | application/json
 
 ---
-**localhost:8000/api/account/orderhistory**
+**`GET` localhost:8000/api/account/orderhistory**
 
 Body:         
 *no body*
@@ -60,7 +60,7 @@ Header:
 *no header*
 
 ---
-**localhost:8000/api/account/login**
+**`POST` localhost:8000/api/account/login**
 
 Body:       
 json                 
@@ -77,7 +77,7 @@ Header:
 ---
 ADMIN STUFF
 ---
-**localhost:8000/api/admin/addproduct**
+**`POST` localhost:8000/api/admin/addproduct**
 
 Body:       
 json            
@@ -94,7 +94,7 @@ Header:
 *no header*
 
 ---
-**localhost:8000/api/admin/removeproduct**
+**`DELETE` localhost:8000/api/admin/removeproduct**
 
 Body:       
 json            

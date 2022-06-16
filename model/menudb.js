@@ -26,7 +26,7 @@ async function getDatabaseId() {
 
 async function doesItemExist(type, value) {
     if(type == "title") {
-        return await database.find({ "menu.title": value });
+        return await database.find({ "menu.title": capitalizeFirstLetter(value) });
     } else if(type == "id") {
         return await database.find({ "menu.id": value });
     } else {
@@ -34,8 +34,17 @@ async function doesItemExist(type, value) {
     }
 }
 
-function removeMenuItem() {
+function capitalizeFirstLetter(value) {
+    console.log(value);
+     value[0].toUpperCase() + value.substring(1);
+}
+
+async function removeMenuItem(removeMenuItem) {
     console.log("removeMenuItem() is running");
+    const menuId = await getDatabaseId();
+    const item = capitalizeFirstLetter(removeMenuItem);
+    const menuItem = await database.update({menu: item}, { $unset: {} }, {});
+    return [menuItem];
 }
 
 module.exports = { getMenu, addMenuItem, removeMenuItem, doesItemExist }

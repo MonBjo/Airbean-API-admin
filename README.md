@@ -91,7 +91,8 @@ json
 ```
 
 Header:        
-Content-Type | application/json
+Content-Type | application/json           
+key | Owi0G2kUd6G9NJQlbvgg
 
 ---
 **`DELETE` localhost:8000/api/admin/removeproduct**
@@ -105,4 +106,5 @@ json
 ```
 
 Header:        
-Content-Type | application/json
+Content-Type | application/json           
+key | Owi0G2kUd6G9NJQlbvgg

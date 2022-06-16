@@ -91,7 +91,7 @@ json
 ```
 
 Header:        
-*no header*
+Content-Type | application/json
 
 ---
 **`DELETE` localhost:8000/api/admin/removeproduct**
@@ -105,4 +105,4 @@ json
 ```
 
 Header:        
-*no header*
+Content-Type | application/json

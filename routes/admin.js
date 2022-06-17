@@ -11,7 +11,7 @@ router.post('/addproduct', auth, async (req, res) => {
   
   const resObj = {
     sucess: false,
-    message: `do you have all properties? "id", "title", "desc" and "price"`
+    message: `do you have all properties? id, title, desc and price`
   }
   if (newMenuItem.hasOwnProperty('id') && newMenuItem.hasOwnProperty('title')
     && newMenuItem.hasOwnProperty('desc') && newMenuItem.hasOwnProperty('price')) {
@@ -27,38 +27,46 @@ router.post('/addproduct', auth, async (req, res) => {
         };
 
         await addMenuItem(menuItem);
-        const newMenu = await getMenu();
-
+        
         resObj.sucess = true;
         resObj.message = "Item added to menu";
-        resObj.menu = newMenu[0].menu;
-
+        
       } else {
         resObj.message = "id already exists";
       }
-
+      
     } else {
       resObj.message = "title already exists";
     }
   }
-
+  const newMenu = await getMenu();
+  resObj.menu = newMenu[0].menu;
+  
   res.json(resObj);
 });
 
 router.delete('/removeproduct', auth, async (req, res) => {
+  let itemToRemove = req.body;
+  let checkItem;
+  let propertyType;
   const resObj = {
     sucess: false,
     message: "Please add title as a property the body"
   };
 
-  const itemTitle = capitalizeFirstLetter(req.body.title);
-  const checkTitle = await doesItemExist("title", itemTitle);
-  console.log(req.body.title, itemTitle, checkTitle);
+  if(itemToRemove.hasOwnProperty('title')) {
+    itemToRemove = capitalizeFirstLetter(req.body.title);
+    propertyType = "title";
+  } else if (itemToRemove.hasOwnProperty('id')) {
+    itemToRemove = itemToRemove.id;
+    propertyType = "id";
+  }
+  checkItem = await doesItemExist(propertyType, itemToRemove);
 
-  // Length 0 = title does not exist
-  // Length 1 = title already exists
-  if(checkTitle.length == 1) {
-    await removeMenuItem(itemTitle);
+  // Length 0 = item do not exist
+  // Length 1 = item do exists
+  if(checkItem.length == 1) {
+    await removeMenuItem(propertyType, itemToRemove);
     
     resObj.sucess = true;
     resObj.message = "Item was deleted";

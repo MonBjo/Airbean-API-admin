@@ -34,10 +34,15 @@ async function doesItemExist(type, value) {
     }
 }
 
-async function removeMenuItem(itemToRemove) {
+async function removeMenuItem(propertyType, itemToRemove) {
     const menuId = await getDatabaseId();
-    const newMenu = await database.update({_id: menuId}, { $pull: { menu: {title: itemToRemove } } });
-    return newMenu;
+    if(propertyType == "id") {
+        return await database.update({_id: menuId}, { $pull: { menu: { id: Number(itemToRemove) } } });
+    } else if(propertyType == "title") {
+        return await database.update({_id: menuId}, { $pull: { menu: { title: itemToRemove } } });
+    } else {
+        console.log("someting weird is going on");
+    }
 }
 
 module.exports = { getMenu, addMenuItem, removeMenuItem, doesItemExist }
